@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">My ToDo</string>
+    <string name="addButton">+</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="removeTitle">削除しますか？</string>
+    <string name="addTitle">追加する情報を入力してください</string>
+    <string name="title">タイトル</string>
+    <string name="detail">詳細</string>
+    <string name="duplicateTitle">同一アイテムを登録済みです</string>
+    <string name="high">高</string>
+    <string name="middle">中</string>
+    <string name="low">低</string>
+    <string name="deadline">期日</string>
+    <string name="priority">優先度</string>
+    <string name="deadlineOrder">期日順</string>
+    <string name="priorityOrder">優先度順</string>
+    <string name="emptyTodoList">＋ボタンでToDoリストを追加してください</string>
+    <string name="updateFailed">更新に失敗しました</string>
+</resources>

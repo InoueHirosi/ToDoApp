@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:autofillHints="auto"
+        android:hint="@string/title"
+        android:inputType="textMultiLine"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/detail"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="VisualLintTextFieldSize" />
+
+    <EditText
+        android:id="@+id/detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:autofillHints="auto"
+        android:breakStrategy="simple"
+        android:hint="@string/detail"
+        android:inputType="textMultiLine"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/attribute"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <LinearLayout
+        android:id="@+id/attribute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@id/deadline"
+        app:layout_constraintTop_toBottomOf="@id/detail">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="@string/priority"
+            android:textSize="15sp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/RadioButtonB1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/holo_red_light"
+                android:gravity="center"
+                android:text="@string/high"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/RadioButtonB2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/holo_orange_light"
+                android:gravity="center"
+                android:text="@string/middle"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/RadioButtonB3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/holo_blue_light"
+                android:gravity="center"
+                android:text="@string/low"
+                android:textSize="15sp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/deadline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5pt"
+        android:hint="@string/deadline"
+        android:onClick="showDatePickerDialog"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/attribute" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
