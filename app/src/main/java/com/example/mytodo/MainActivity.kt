@@ -22,6 +22,7 @@ import com.example.mytodo.ui.DatePick
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.time.Duration
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -47,6 +48,9 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     // RecyclerViewのAdapterを用意（未初期化）
     private lateinit var recyclerAdapter: RecyclerAdapter
+
+    // 期限日の優先度のための数値
+    private var deadlineNum: Int = 0
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,7 +116,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
+                target: RecyclerView.ViewHolder,
             ): Boolean {
                 // アイテム位置の入れ替えを行う
                 val fromPos = viewHolder.adapterPosition
@@ -215,19 +219,31 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     val title = txtTitle.text.toString()
                     val detail = txtDetail.text.toString()
                     val deadline = btnDeadline.text.toString()
+                    val deadlineNum = if (deadline == "期日") Int.MAX_VALUE else deadlineNum
                     val priority = when (priorityButtonGroup.checkedRadioButtonId) {
                         R.id.RadioButtonB1 -> Priority.IMPORTANT
                         R.id.RadioButtonB2 -> Priority.NORMAL
                         R.id.RadioButtonB3 -> Priority.UNIMPORTANT
                         else -> Priority.IMPORTANT
                     }
-                    updateTodoData(Todo(id, displayOrder, title, detail, deadline, priority), index)
+                    updateTodoData(
+                        Todo(
+                            id,
+                            displayOrder,
+                            title,
+                            detail,
+                            deadline,
+                            deadlineNum,
+                            priority
+                        ), index
+                    )
                 } else {
                     // 新規登録時
                     // 入力内容を取得
                     val title = txtTitle.text.toString()
                     val detail = txtDetail.text.toString()
                     val deadline = btnDeadline.text.toString()
+                    val deadlineNum = if (deadline == "期日") Int.MAX_VALUE else deadlineNum
                     val priority = when (priorityButtonGroup.checkedRadioButtonId) {
                         R.id.RadioButtonB1 -> Priority.IMPORTANT
                         R.id.RadioButtonB2 -> Priority.NORMAL
@@ -237,7 +253,11 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     val id =
                         title.hashCode() / 4 - detail.hashCode() / 4 + deadline.hashCode() / 4 - priority.hashCode() / 4
                     // ToDoを生成
-                    insertTodoData(Todo(id, addList.size, title, detail, deadline, priority))
+                    insertTodoData(
+                        Todo(
+                            id, addList.size, title, detail, deadline, deadlineNum, priority
+                        )
+                    )
                 }
             }
             // AlertDialogのnoボタンを設定
@@ -293,21 +313,25 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         val dateFormat = DateTimeFormatter.ofPattern("uu/MM/dd(E)")
         val deadline: LocalDate = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
         val period: Period = Period.between(LocalDate.now(), deadline)
+        val duration: Duration = Duration.between(
+            LocalDate.now().atTime(0, 0, 0), deadline.atTime(0, 0, 0)
+        )
         val remainYears = if (period.years != 0) "${period.years}年" else ""
         val remainMonths = if (period.months != 0) "${period.months}ヶ月" else ""
         val txtDeadline =
             if (period.isNegative) "期限切れ" else "${dateFormat.format(deadline)}\nあと${remainYears}${remainMonths}${period.days}日"
         addTodoView.findViewById<Button>(R.id.deadline).text = txtDeadline
+        deadlineNum = duration.toDays().toInt()
     }
 
-    fun showDatePickerDialog(v: View) {
+    fun showDatePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         // カレンダー表示
         val newFragment = DatePick()
         newFragment.show(supportFragmentManager, "datePicker")
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun orderByPriority(v: View) {
+    fun orderByPriority(@Suppress("UNUSED_PARAMETER") v: View) {
         // 優先度でソート
         sortedByPriority = !sortedByPriority
         if (addList.isEmpty()) {
@@ -324,7 +348,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun orderByDeadline(v: View) {
+    fun orderByDeadline(@Suppress("UNUSED_PARAMETER") v: View) {
         // 期限日でソート
         sortedByDeadline = !sortedByDeadline
         if (addList.isEmpty()) {
@@ -332,7 +356,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                 this, R.string.emptyTodoList, Toast.LENGTH_SHORT
             ).show()
         }
-        addList.sortWith(compareBy<Todo> { it.deadline }.thenBy { it.displayOrder })
+        addList.sortWith(compareBy<Todo> { it.deadlineNum }.thenBy { it.displayOrder })
         if (sortedByDeadline) {
             addList.reverse()
         }

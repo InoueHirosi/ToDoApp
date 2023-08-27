@@ -12,5 +12,6 @@ data class Todo(
     @ColumnInfo val title: String,
     @ColumnInfo val detail: String,
     @ColumnInfo val deadline: String,
+    @ColumnInfo val deadlineNum: Int,
     @ColumnInfo val priority: Priority,
 )
