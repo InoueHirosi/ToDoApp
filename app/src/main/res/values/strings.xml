@@ -16,5 +16,9 @@
     <string name="deadlineOrder">期日順</string>
     <string name="priorityOrder">優先度順</string>
     <string name="emptyTodoList">＋ボタンでToDoリストを追加してください</string>
-    <string name="updateFailed">更新に失敗しました</string>
+    <string name="expired">期限切れ</string>
+    <string name="yearUnit">年</string>
+    <string name="monthUnit">ヶ月</string>
+    <string name="dayUnit">日</string>
+    <string name="remain">あと</string>
 </resources>

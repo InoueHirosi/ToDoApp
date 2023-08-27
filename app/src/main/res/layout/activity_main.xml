@@ -23,7 +23,6 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/btnOrderPriority"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,7 +34,6 @@
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/btnOrderDeadline"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
