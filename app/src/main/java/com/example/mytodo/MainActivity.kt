@@ -192,9 +192,11 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                 Priority.IMPORTANT -> {
                     priorityButtonGroup.check(R.id.RadioButtonB1)
                 }
+
                 Priority.NORMAL -> {
                     priorityButtonGroup.check(R.id.RadioButtonB2)
                 }
+
                 Priority.UNIMPORTANT -> {
                     priorityButtonGroup.check(R.id.RadioButtonB3)
                 }
@@ -219,7 +221,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     val title = txtTitle.text.toString()
                     val detail = txtDetail.text.toString()
                     val deadline = btnDeadline.text.toString()
-                    val deadlineNum = if (deadline == "期日") Int.MAX_VALUE else deadlineNum
+                    val deadlineNum = if (deadline == R.string.deadline.toString()) Int.MAX_VALUE else deadlineNum
                     val priority = when (priorityButtonGroup.checkedRadioButtonId) {
                         R.id.RadioButtonB1 -> Priority.IMPORTANT
                         R.id.RadioButtonB2 -> Priority.NORMAL
@@ -228,13 +230,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     }
                     updateTodoData(
                         Todo(
-                            id,
-                            displayOrder,
-                            title,
-                            detail,
-                            deadline,
-                            deadlineNum,
-                            priority
+                            id, displayOrder, title, detail, deadline, deadlineNum, priority
                         ), index
                     )
                 } else {
@@ -243,7 +239,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     val title = txtTitle.text.toString()
                     val detail = txtDetail.text.toString()
                     val deadline = btnDeadline.text.toString()
-                    val deadlineNum = if (deadline == "期日") Int.MAX_VALUE else deadlineNum
+                    val deadlineNum = if (deadline == R.string.deadline.toString()) Int.MAX_VALUE else deadlineNum
                     val priority = when (priorityButtonGroup.checkedRadioButtonId) {
                         R.id.RadioButtonB1 -> Priority.IMPORTANT
                         R.id.RadioButtonB2 -> Priority.NORMAL
@@ -316,11 +312,11 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         val duration: Duration = Duration.between(
             LocalDate.now().atTime(0, 0, 0), deadline.atTime(0, 0, 0)
         )
-        val remainYears = if (period.years != 0) "${period.years}年" else ""
-        val remainMonths = if (period.months != 0) "${period.months}ヶ月" else ""
+        val remainYears = if (period.years != 0) period.years + R.string.yearUnit else ""
+        val remainMonths = if (period.months != 0) period.months + R.string.monthUnit else ""
         val txtDeadline =
-            if (period.isNegative) "期限切れ" else "${dateFormat.format(deadline)}\nあと${remainYears}${remainMonths}${period.days}日"
-        addTodoView.findViewById<Button>(R.id.deadline).text = txtDeadline
+            if (period.isNegative) R.string.expired else dateFormat.format(deadline) + "\n" + R.string.remain + remainYears + remainMonths + period.days + R.string.dayUnit
+        addTodoView.findViewById<Button>(R.id.deadline).text = txtDeadline.toString()
         deadlineNum = duration.toDays().toInt()
     }
 
