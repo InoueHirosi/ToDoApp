@@ -320,14 +320,14 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         deadlineNum = duration.toDays().toInt()
     }
 
-    fun showDatePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
+    fun showDatePickerDialog(@Suppress("UNUSED_PARAMETER") ignoredV: View) {
         // カレンダー表示
         val newFragment = DatePick()
         newFragment.show(supportFragmentManager, "datePicker")
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun orderByPriority(@Suppress("UNUSED_PARAMETER") v: View) {
+    fun orderByPriority(@Suppress("UNUSED_PARAMETER") ignoredV: View) {
         // 優先度でソート
         sortedByPriority = !sortedByPriority
         if (addList.isEmpty()) {
@@ -344,7 +344,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun orderByDeadline(@Suppress("UNUSED_PARAMETER") v: View) {
+    fun orderByDeadline(@Suppress("UNUSED_PARAMETER") ignoredV: View) {
         // 期限日でソート
         sortedByDeadline = !sortedByDeadline
         if (addList.isEmpty()) {
