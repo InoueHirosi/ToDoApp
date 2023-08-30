@@ -6,6 +6,5 @@ enum class Priority(val value: Int) {
     UNIMPORTANT(3);
 
     companion object {
-        fun fromInt(value: Int) = Priority.values().first { it.value == value }
     }
 }
